@@ -1,6 +1,8 @@
 import {SignupDto} from '../../auth/dto/signup.dto';
-import {UserEntity} from '../../auth/entities/User.entity';
+import {UserEntity} from '../../user/entites/User.entity';
 import {Injectable} from '@nestjs/common';
+import {UserService} from '../../user/services/user.service';
+import {UserDto} from '../../user/dto/user.dto';
 
 @Injectable()
 export class UserMappingService{
@@ -12,8 +14,17 @@ export class UserMappingService{
         user.lastname = dto.lastname;
         user.email = dto.email;
         user.password = dto.password;
-
+        user.isActive =  dto.isActive;
         return user;
     }
 
+    entityToDto(user: UserEntity){
+        return  {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            password: user.password,
+            isActive: user.isActive
+        }
+    }
 }

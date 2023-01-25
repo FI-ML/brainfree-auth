@@ -1,85 +1,64 @@
-import {BadRequestException, Injectable} from '@nestjs/common';
-import {UserEntity} from '../entities/User.entity';
+import {BadRequestException, ForbiddenException, Injectable} from '@nestjs/common';
+import {Request, Response} from 'express';
+import {UserEntity} from '../../user/entites/User.entity';
 import {SignupDto} from '../dto/signup.dto';
 import {UserMappingService} from '../../mapping/services/user.mapping.service';
 import * as bcrypt from 'bcrypt';
 import {JwtService} from '@nestjs/jwt';
 import {SigningDto} from '../dto/signingDto';
 import {ConfigService} from '@nestjs/config';
+import {UserService} from '../../user/services/user.service';
+import {UserDto} from '../../user/dto/user.dto';
 
 @Injectable()
 export class AuthService {
 
-
-    constructor(private readonly userMappingService: UserMappingService,
-                private readonly jwtService: JwtService,
-                private readonly configService: ConfigService) {
+    constructor(private readonly jwtService: JwtService,
+                private readonly configService: ConfigService,
+                private readonly userService: UserService) {
     }
 
-    async signup(signUpDto: SignupDto) {
+    async signUp(signUpDto: SignupDto) {
 
-        const foundUser = await this.findUserByMail(signUpDto.email);
+        const user = await this.userService.createUser(signUpDto);
+        const token = await this.signToken(user);
 
-        if (foundUser) {
-            throw new BadRequestException('Email already exists');
+        return {token};
+    }
+
+
+    async signIn(signingDto: SigningDto, request: Request, response: Response):Promise<Response> {
+
+        const user = await this.userService.findUserByMail(signingDto.email);
+
+        await this.isPasswordCorrect(signingDto, user);
+
+        const token = await this.signToken(user);
+
+        if(!token){
+            throw new ForbiddenException();
         }
 
-        const user = this.userMappingService.dtoToEntity(signUpDto);
-        user.password = await this.hashPassword(user.password);
-        await UserEntity.save(user);
+        response.cookie('token', token);
 
-
-        const args = this.getUserDetails(user);
-        const token = await this.signToken(args);
-        return { token };
+        return response.send({message: 'Logged in successfully'});
     }
 
-
-    async singing(signingDto: SigningDto) {
-
-        const foundUser = await this.findUserByMail(signingDto.email);
-
-        if (!foundUser) {
-            throw new BadRequestException(`Can't find user with email ${signingDto.email}`);
-        }
-
-        const isMatch = await bcrypt.compare(signingDto.password, foundUser.password);
-
-        if (!isMatch) {
-            throw new BadRequestException('Wrong credentials');
-        }
-
-        const args = this.getUserDetails(foundUser);
-        return this.signToken(args);
+    async signOut(request: Request, response: Response):Promise<Response> {
+        response.clearCookie('token')
+        return response.send({message:'Logged out successfully'});
     }
 
-
-    async signOut() {
-        return '';
-    }
-
-    async findUserByMail(mail: string): Promise<UserEntity> {
-        return await UserEntity.findOne({
-            where: {email: mail},
-        });
-    }
-
-    async hashPassword(password: string): Promise<string> {
-        const saltOrRounds = 10;
-        return await bcrypt.hash(password, saltOrRounds);
-    }
-
-    async signToken(args: { firstname: string, lastname: string, email: string }) {
-        const payload = args;
+    async signToken(user: UserDto): Promise<string> {
+        const payload = {firstname: user.firstname, lastname: user.lastname, email: user.email};
         const jwtSecret = this.configService.get<string>('JWT_SECRET');
         return await this.jwtService.signAsync(payload, {secret: jwtSecret});
     }
-
-    private getUserDetails(user: UserEntity) {
-        return {
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email
-        };
+    private async isPasswordCorrect(signingDto: SigningDto, user: UserDto) {
+        const isMatch = await bcrypt.compare(signingDto.password, user.password);
+        if (!isMatch) {
+            throw new BadRequestException('Wrong credentials');
+        }
     }
+
 }

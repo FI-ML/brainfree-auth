@@ -1,4 +1,4 @@
-import {IsEmail, IsNotEmpty, IsString, Length, Matches} from 'class-validator';
+import {IsBoolean, IsEmail, IsNotEmpty, IsString, Length, Matches} from 'class-validator';
 
 export class SignupDto {
 
@@ -32,4 +32,7 @@ export class SignupDto {
         })
     public password: string;
 
+    @IsNotEmpty()
+    @IsBoolean()
+    public isActive: boolean;
 }
