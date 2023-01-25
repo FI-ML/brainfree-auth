@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { validate } from './config/validations/env.validation';
 import { AuthModule } from './models/auth/auth.module';
 import { MappingModule } from './models/mapping/mapping.module';
-import { PostgresDatabaseProviderModule } from './providers/postgresDatabaseProviderModule';
+import { PostgresDatabaseProviderModule } from './providers/postgres.database.provider.module';
 
 @Module({
   imports: [
