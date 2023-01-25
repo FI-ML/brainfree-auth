@@ -4,15 +4,16 @@ import {SignupDto} from '../dto/signup.dto';
 import {UserMappingService} from '../../mapping/services/user.mapping.service';
 import * as bcrypt from 'bcrypt';
 import {JwtService} from '@nestjs/jwt';
-import {jwtSecret} from '../../../common/constants/constants'
 import {SigningDto} from '../dto/signingDto';
+import {ConfigService} from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
 
 
     constructor(private readonly userMappingService: UserMappingService,
-                private readonly jwtService: JwtService) {
+                private readonly jwtService: JwtService,
+                private readonly configService: ConfigService) {
     }
 
     async signup(signUpDto: SignupDto) {
@@ -28,8 +29,11 @@ export class AuthService {
         await UserEntity.save(user);
 
 
-        return this.signToken(user);
+        const args = this.getUserDetails(user);
+        const token = await this.signToken(args);
+        return { token };
     }
+
 
     async singing(signingDto: SigningDto) {
 
@@ -45,7 +49,8 @@ export class AuthService {
             throw new BadRequestException('Wrong credentials');
         }
 
-        return this.signToken(foundUser);
+        const args = this.getUserDetails(foundUser);
+        return this.signToken(args);
     }
 
 
@@ -64,8 +69,17 @@ export class AuthService {
         return await bcrypt.hash(password, saltOrRounds);
     }
 
-    async signToken(args: UserEntity) {
+    async signToken(args: { firstname: string, lastname: string, email: string }) {
+        const payload = args;
+        const jwtSecret = this.configService.get<string>('JWT_SECRET');
+        return await this.jwtService.signAsync(payload, {secret: jwtSecret});
+    }
 
-        return await this.jwtService.signAsync(args, {secret: jwtSecret})
+    private getUserDetails(user: UserEntity) {
+        return {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email
+        };
     }
 }
