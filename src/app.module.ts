@@ -3,18 +3,22 @@ import {LoggerMiddleware} from './common/middleware/logger/logger.middleware';
 import {ConfigModule} from '@nestjs/config';
 import {validate} from './config/validations/env.validation';
 import {AuthModule} from './models/auth/auth.module';
-import {MappingModule} from './models/mapping/mapping.module';
+import {UtilsModule} from './models/utils/utils.module';
 import {PostgresDatabaseProviderModule} from './providers/postgres.database.provider.module';
 import {UserModule} from './models/user/user.module';
+import {JwtModule} from '@nestjs/jwt';
+import {PassportModule} from '@nestjs/passport';
 
 
 @Module({
     imports: [
         ConfigModule.forRoot({isGlobal: true, validate}),
         AuthModule,
-        MappingModule,
+        UtilsModule,
         PostgresDatabaseProviderModule,
         UserModule,
+        JwtModule,
+        PassportModule,
     ],
     controllers: [],
     providers: [],
