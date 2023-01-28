@@ -3,8 +3,8 @@ import {PassportStrategy} from '@nestjs/passport';
 import {ExtractJwt, Strategy} from 'passport-jwt';
 import {ConfigService} from '@nestjs/config';
 import {Request} from 'express';
-import {UserMapperUtilsService} from '../../utils/services/mapping/user.mapper.utils.service';
-import {UserDto} from '../../user/dto/user.dto';
+import {UserMapperUtilsService} from '../../../utils/services/mapping/user.mapper.utils.service';
+import {UserDto} from '../../../user/dto/user.dto';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

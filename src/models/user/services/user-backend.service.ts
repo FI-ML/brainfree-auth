@@ -1,11 +1,12 @@
 import {User} from '../entites/user';
 import {Injectable} from '@nestjs/common';
 import {Role} from '../../role/entities/role';
+import {DeleteQueryBuilder} from 'typeorm';
 
 @Injectable()
 export class UserBackendService {
 
-    async crateUser(user: User): Promise<User> {
+    async crate(user: User): Promise<User> {
         return await User.save(user);
     }
 
@@ -32,5 +33,18 @@ export class UserBackendService {
                 email: email
             })
             .getRawMany();
+
     }
+
+    async delete(userId: string): Promise<DeleteQueryBuilder<User>> {
+        return User
+            .getRepository()
+            .createQueryBuilder()
+            .delete()
+            .from(User)
+            .where('user.id = :id', {
+                id: userId
+            });
+    }
+
 }
