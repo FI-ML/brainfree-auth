@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Post, Req, Res} from '@nestjs/common';
 import {AuthService} from '../services/auth.service';
-import {UserMapperUtilsService} from '../../utils/services/mapping/user-mapper.utils.service';
+import {UserMapperUtilsService} from '../../utils/services/mapping/user.mapper.utils.service';
 import {SignupDto} from '../dto/signup.dto';
 import {SigningDto} from '../dto/signingDto';
 

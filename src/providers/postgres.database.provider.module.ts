@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConfigService} from '@nestjs/config';
-import {UserEntity} from '../models/user/entites/User.entity';
+import {User} from '../models/user/entites/user';
+import {Role} from '../models/role/entities/role';
 
 @Module({
     imports: [
@@ -13,12 +14,13 @@ import {UserEntity} from '../models/user/entites/User.entity';
                 username: configService.get<string>('DB_USERNAME'),
                 password: configService.get<string>('DB_PASSWORD'),
                 database: configService.get<string>('DB_NAME'),
-                entities: [UserEntity],
-                synchronize: false,
-                logging: configService.get<boolean>('DB_LOGGING'),
+                entities: [User, Role],
+                synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
+                logging: false,
             }),
             inject: [ConfigService],
         }),
     ]
 })
-export class PostgresDatabaseProviderModule {}
+export class PostgresDatabaseProviderModule {
+}

@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {UserDto} from '../../../user/dto/user.dto';
-import {UserMapperUtilsService} from '../mapping/user-mapper.utils.service';
+import {UserMapperUtilsService} from '../mapping/user.mapper.utils.service';
 import {ConfigService} from '@nestjs/config';
 import {JwtService} from '@nestjs/jwt';
 

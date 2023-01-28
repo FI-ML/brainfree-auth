@@ -8,17 +8,19 @@ import {PostgresDatabaseProviderModule} from './providers/postgres.database.prov
 import {UserModule} from './models/user/user.module';
 import {JwtModule} from '@nestjs/jwt';
 import {PassportModule} from '@nestjs/passport';
+import {RoleModule} from './models/role/role.module';
 
 
 @Module({
     imports: [
-        ConfigModule.forRoot({isGlobal: true, validate}),
         AuthModule,
-        UtilsModule,
-        PostgresDatabaseProviderModule,
-        UserModule,
+        ConfigModule.forRoot({isGlobal: true, validate}),
         JwtModule,
         PassportModule,
+        PostgresDatabaseProviderModule,
+        RoleModule,
+        UserModule,
+        UtilsModule,
     ],
     controllers: [],
     providers: [],
