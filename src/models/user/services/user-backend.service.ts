@@ -6,20 +6,23 @@ import {Role} from '../../role/entities/role';
 export class UserBackendService {
 
     async crateUser(user: User): Promise<User> {
-        //    user.password = await this.hashPassword(user.password);
         return await User.save(user);
     }
 
 
     async findUserByMail(mail: string): Promise<User> {
 
-        return await User.findOne({
+        let user = await User.findOne({
             where: {email: mail},
-        })
+        });
+
+        if (user) {
+            user.roles = await this.findAllRolesByUser(user.email);
+        }
+        return user;
     }
 
     async findAllRolesByUser(email: string): Promise<Array<Role>> {
-
         return await User
             .getRepository()
             .createQueryBuilder('user')
