@@ -35,10 +35,10 @@ export class UserService {
         if (!user) {
             throw new NotFoundException(`Can't find user with email ${decodedUser.email}`);
         }
-
         delete user.password;
 
-        return this.tokenService.signToken(user);
+        const userDto = this.userMapper.entityToDto(user);
+        return this.tokenService.signToken(userDto);
     }
 
     async findRolesByUser(request: Request) {
@@ -46,9 +46,7 @@ export class UserService {
         await this.userService.findAllRolesByUser(decodedUser.email);
     }
 
-    //TODO: Rausfinden wie man ManyToMany relationen erzeugt
-    //TODO: Rollen müssen in den token gemappt werden
-    //TODO: Jeder Service gibt token nach außen?
+
     //TODO: TOKEN DTO
     //TODO: REFRESH TOKEN
     //  BEARER TOKEN
@@ -63,15 +61,12 @@ export class UserService {
         let user = this.userMapper.dtoToEntity(signUpDto);
 
         user.roles = this.getExtractedRolesFromDto(signUpDto.roles);
-        //  await this.roleBackendService.create(user.roles);
         user = await this.userService.crateUser(user);
 
 
         return this.userMapper.entityToDto(user);
     }
 
-
-    //TODO: Create DTO
     private getUserFromToken(request: Request) {
         return request.user as { email: string };
     }
