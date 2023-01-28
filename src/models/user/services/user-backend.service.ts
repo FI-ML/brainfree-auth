@@ -1,6 +1,6 @@
 import {User} from '../entites/user';
 import {Injectable} from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+import {Role} from '../../role/entities/role';
 
 @Injectable()
 export class UserBackendService {
@@ -12,29 +12,22 @@ export class UserBackendService {
 
 
     async findUserByMail(mail: string): Promise<User> {
+
         return await User.findOne({
             where: {email: mail},
-        });
+        })
     }
 
-    async findAllRolesByUser(email: string): Promise<void> {
+    async findAllRolesByUser(email: string): Promise<Array<Role>> {
 
-        const roleNames =
-            await User
-                .getRepository()
-                .createQueryBuilder('user')
-                .leftJoinAndSelect('user.roles', 'roles')
-                .select(['roles.name AS role'])
-                .where('user.email = :email', {
-                    email: email
-                })
-                .getRawMany();
-
-        console.log(JSON.stringify(roleNames))
-    }
-
-    private async hashPassword(password: string): Promise<string> {
-        const saltOrRounds = 10;
-        return await bcrypt.hash(password, saltOrRounds);
+        return await User
+            .getRepository()
+            .createQueryBuilder('user')
+            .leftJoinAndSelect('user.roles', 'roles')
+            .select(['roles.name AS role'])
+            .where('user.email = :email', {
+                email: email
+            })
+            .getRawMany();
     }
 }

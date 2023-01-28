@@ -5,7 +5,6 @@ import {UserMapperUtilsService} from '../utils/services/mapping/user.mapper.util
 import {UserController} from './controller/user.controller';
 import {TokenUtilsService} from '../utils/services/token/token.utils.service';
 import {JwtModule} from '@nestjs/jwt';
-import {RoleBackendService} from '../role/services/role.backend.service';
 import {RoleMapperUtilsService} from '../utils/services/mapping/role.mapper.utils.service';
 
 @Module({
@@ -14,7 +13,6 @@ import {RoleMapperUtilsService} from '../utils/services/mapping/role.mapper.util
         UserService,
         UserMapperUtilsService,
         TokenUtilsService,
-        RoleBackendService,
         RoleMapperUtilsService],
     controllers: [UserController]
 })

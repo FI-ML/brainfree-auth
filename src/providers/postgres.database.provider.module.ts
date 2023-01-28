@@ -16,7 +16,7 @@ import {Role} from '../models/role/entities/role';
                 database: configService.get<string>('DB_NAME'),
                 entities: [User, Role],
                 synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
-                logging: false,
+                logging: true,
             }),
             inject: [ConfigService],
         }),

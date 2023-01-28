@@ -1,6 +1,6 @@
 import {SignupDto} from '../../../auth/dto/signup.dto';
 import {User} from '../../../user/entites/user';
-import {Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {UserDto} from '../../../user/dto/user.dto';
 import {RoleMapperUtilsService} from './role.mapper.utils.service';
 import {GetRoleDto} from '../../../role/dto/get.role.dto';
@@ -38,9 +38,15 @@ export class UserMapperUtilsService {
         return {firstname: user.firstname, lastname: user.lastname, email: user.email, roles: user.roles};
     }
 
+    //TODO: Global is present Utils
     private getExtractedRolesFromDto(createRoles: Array<Role>): Array<GetRoleDto> {
-        const roles: Array<GetRoleDto> = [];
 
+        if (!createRoles) {
+            throw new NotFoundException(`Your roles are empty`);
+        }
+
+
+        const roles: Array<GetRoleDto> = [];
         createRoles.map(role => role.name).forEach(name => {
             roles.push({name: name});
         });

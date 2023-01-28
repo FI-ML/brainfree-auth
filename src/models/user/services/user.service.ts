@@ -8,15 +8,14 @@ import {TokenUtilsService} from '../../utils/services/token/token.utils.service'
 import {RoleMapperUtilsService} from '../../utils/services/mapping/role.mapper.utils.service';
 import {CreateRoleDto} from '../../role/dto/create.role.dto';
 import {Role} from '../../role/entities/role';
-import {RoleBackendService} from '../../role/services/role.backend.service';
+
 
 @Injectable()
 export class UserService {
     constructor(private readonly userService: UserBackendService,
                 private readonly userMapper: UserMapperUtilsService,
                 private readonly roleMapper: RoleMapperUtilsService,
-                private readonly tokenService: TokenUtilsService,
-                private readonly roleBackendService: RoleBackendService) {
+                private readonly tokenService: TokenUtilsService) {
     }
 
     async findUserByMail(email: string) {
@@ -49,7 +48,7 @@ export class UserService {
 
     //TODO: Rausfinden wie man ManyToMany relationen erzeugt
     //TODO: Rollen müssen in den token gemappt werden
-    //TODO: Jeder Service gibt tolen nach ausßen?
+    //TODO: Jeder Service gibt token nach außen?
     //TODO: TOKEN DTO
     //TODO: REFRESH TOKEN
     //  BEARER TOKEN
@@ -64,9 +63,9 @@ export class UserService {
         let user = this.userMapper.dtoToEntity(signUpDto);
 
         user.roles = this.getExtractedRolesFromDto(signUpDto.roles);
+        //  await this.roleBackendService.create(user.roles);
         user = await this.userService.crateUser(user);
 
-        await this.roleBackendService.create(user.roles);
 
         return this.userMapper.entityToDto(user);
     }
@@ -77,7 +76,7 @@ export class UserService {
         return request.user as { email: string };
     }
 
-    private getExtractedRolesFromDto(createRoles: Array<CreateRoleDto>) {
+    private getExtractedRolesFromDto(createRoles: Array<CreateRoleDto>): Array<Role> {
         const roles: Array<Role> = [];
 
         createRoles.forEach(role => {

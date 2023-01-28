@@ -7,7 +7,6 @@ import {UserBackendService} from '../user/services/user-backend.service';
 import {UserMapperUtilsService} from '../utils/services/mapping/user.mapper.utils.service';
 import {JwtStrategy} from './guards/jwt.strategy';
 import {TokenUtilsService} from '../utils/services/token/token.utils.service';
-import {RoleBackendService} from '../role/services/role.backend.service';
 import {RoleMapperUtilsService} from '../utils/services/mapping/role.mapper.utils.service';
 
 @Module({
@@ -19,7 +18,6 @@ import {RoleMapperUtilsService} from '../utils/services/mapping/role.mapper.util
         UserMapperUtilsService,
         JwtStrategy,
         TokenUtilsService,
-        RoleBackendService,
         RoleMapperUtilsService]
 })
 export class AuthModule {

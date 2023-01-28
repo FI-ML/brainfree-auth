@@ -70,8 +70,13 @@ $ docker-compose up -d
           "lastname": "doe",
           "email": "test@mail.com",
           "password": "1234#4LsLs",
-          "isActive": true
-          }
+          "isActive": true,
+          "roles": [
+                {
+                    "name": "User"
+                }
+          ]
+         }
          ```
 
 * [signing](localhost:3000/v1/auth/singing)
@@ -79,11 +84,8 @@ $ docker-compose up -d
 
       ```json
       {
-      "firstname": "jane",
-      "lastname": "doe",
       "email": "test@mail.com",
-      "password": "1234#4LsLs",
-      "isActive": true
+      "password": "1234#4LsLs"
       }
       ```
 
