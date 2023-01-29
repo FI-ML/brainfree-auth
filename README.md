@@ -12,6 +12,10 @@ brainfree-auth is a small self-written Authenticate Server based on OAtuh2.
 * PostgresDB
 * Angular
 
+## OAuth2 flow
+
+![img.png](dok/images/img.png)
+
 ## Installation
 
 ```bash
