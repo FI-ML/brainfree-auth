@@ -1,14 +1,14 @@
 import {
-    BaseEntity,
-    BeforeInsert,
-    BeforeUpdate,
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinTable,
-    ManyToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn
+  BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { Role } from '../../role/entities/role';
 import * as argon2 from 'argon2';
@@ -56,7 +56,9 @@ export class User extends BaseEntity {
   @JoinTable({ name: 'users_roles' })
   roles: Array<Role>;
 
-  @Column()
+  @Column({
+    type: 'varchar'
+  })
   refreshToken: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })

@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { SignupDto } from '../dto/signup.dto';
 import { JwtService } from '@nestjs/jwt';
 import { SigningDto } from '../dto/signingDto';
@@ -19,39 +19,49 @@ export class AuthService {
   async signUp(signUpDto: SignupDto) {
 
     const user = await this.userService.create(signUpDto);
-    const token = await this.tokenService.signToken(user);
+    const tokens = await this.tokenService.getTokens(user);
 
-    return { token };
+    await this.userService.updateRefreshToken(user.email, tokens.refreshToken);
+
+    return tokens;
   }
 
-
-  async signIn(signingDto: SigningDto, request: Request, response: Response): Promise<Response> {
-
+  async signIn(signingDto: SigningDto) {
     const user = await this.userService.findUserByMail(signingDto.email);
 
     await this.isPasswordCorrect(signingDto, user);
 
-    const token = await this.tokenService.signToken(user);
+    const tokens = await this.tokenService.getTokens(user);
 
-    if (!token) {
+    if (!tokens.refreshToken || !tokens.accessToken) {
       throw new ForbiddenException();
     }
 
-    response.cookie('token', token);
+    await this.userService.updateRefreshToken(user.email, tokens.refreshToken);
 
-    return response.send({ message: 'Logged in successfully' });
+    return tokens;
   }
 
-  async signOut(request: Request, response: Response): Promise<Response> {
-    response.clearCookie('token');
-    return response.send({ message: 'Logged out successfully' });
+  async logout(email: string): Promise<void> {
+    await this.userService.updateRefreshToken(email, null);
   }
 
   private async isPasswordCorrect(signingDto: SigningDto, user: UserDto) {
     const isMatch = await argon2.verify(signingDto.password, user.password);
     if (!isMatch) {
-      throw new BadRequestException('Wrong credentials');
+      throw new BadRequestException('Wrong user credentials');
     }
   }
 
+  async refreshTokens(request: Request) {
+    const email = request.user['email'];
+    const refreshToken = request.user['refreshToken'];
+
+    const user = await this.userService.findUserByMail(email);
+
+    await this.tokenService.isRefreshTokenValid(user, refreshToken);
+
+    const tokens = await this.tokenService.getTokens(user);
+    await this.userService.updateRefreshToken(user.email, tokens.refreshToken);
+  }
 }
