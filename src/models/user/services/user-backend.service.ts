@@ -37,6 +37,9 @@ export class UserBackendService {
   }
 
   async updateUsersRefreshtoken(email: string, refreshToken: string) {
+    let user = await this.findUserByMail(email);
+    user.refreshToken = refreshToken;
+    await User.save(user);
   }
 
   async delete(userId: string): Promise<DeleteQueryBuilder<User>> {

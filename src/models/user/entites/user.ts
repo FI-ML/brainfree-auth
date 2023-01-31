@@ -52,7 +52,11 @@ export class User extends BaseEntity {
   @ManyToMany(
     () => Role,
     role => role.users,
-    { cascade: true })
+    {
+      cascade: true,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    })
   @JoinTable({ name: 'users_roles' })
   roles: Array<Role>;
 
