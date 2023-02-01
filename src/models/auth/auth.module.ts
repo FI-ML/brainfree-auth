@@ -13,12 +13,14 @@ import { RoleMapperUtilsService } from '../utils/services/mapping/role.mapper.ut
 @Module({
   imports: [JwtModule],
   controllers: [AuthController],
-  providers: [AuthService,
+  providers: [
+    AuthService,
     UserBackendService,
     UserService,
     UserMapperUtilsService,
     TokenUtilsService,
-    RoleMapperUtilsService]
+    RoleMapperUtilsService
+  ]
 })
 export class AuthModule {
 }

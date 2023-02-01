@@ -13,7 +13,6 @@ export class UserMapperUtilsService {
     user.firstname = dto.firstname;
     user.lastname = dto.lastname;
     user.email = dto.email;
-    user.password = dto.password;
     user.isActive = dto.isActive;
     return user;
   }
@@ -42,4 +41,5 @@ export class UserMapperUtilsService {
     });
     return roles;
   }
+
 }

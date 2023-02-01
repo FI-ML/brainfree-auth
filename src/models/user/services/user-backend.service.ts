@@ -17,15 +17,14 @@ export class UserBackendService {
       where: { email: mail }
     });
 
-    if (user) {
+    /*if (user) {
       user.roles = await this.findAllRolesByUser(user.email);
-    }
+    }*/
     return user;
   }
 
   async findAllRolesByUser(email: string): Promise<Array<Role>> {
     return await User
-      .getRepository()
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.roles', 'roles')
       .select(['roles.name AS role'])
@@ -33,7 +32,6 @@ export class UserBackendService {
         email: email
       })
       .getRawMany();
-
   }
 
   async updateUsersRefreshtoken(email: string, refreshToken: string) {

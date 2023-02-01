@@ -1,7 +1,5 @@
 import {
   BaseEntity,
-  BeforeInsert,
-  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -11,7 +9,6 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 import { Role } from '../../role/entities/role';
-import * as argon2 from 'argon2';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -49,15 +46,9 @@ export class User extends BaseEntity {
   })
   isActive: boolean;
 
-  @ManyToMany(
-    () => Role,
-    role => role.users,
-    {
-      cascade: true,
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE'
-    })
-  @JoinTable({ name: 'users_roles' })
+
+  @ManyToMany(() => Role, { cascade: true })
+  @JoinTable({ name: 'user_roles' })
   roles: Array<Role>;
 
   @Column({
@@ -71,9 +62,9 @@ export class User extends BaseEntity {
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' })
   public updated_at: Date;
 
-  @BeforeInsert()
+  /*@BeforeInsert()
   @BeforeUpdate()
   async hashPassword(): Promise<void> {
     this.password = await argon2.hash(this.password);
-  }
+  }*/
 }

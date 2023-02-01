@@ -38,7 +38,6 @@ export class AuthService {
     }
 
     await this.userService.updateRefreshToken(user.email, tokens.refreshToken);
-
     return tokens;
   }
 
@@ -47,7 +46,7 @@ export class AuthService {
   }
 
   private async isPasswordCorrect(signingDto: SigningDto, user: UserDto) {
-    const isMatch = await argon2.verify(signingDto.password, user.password);
+    const isMatch = await argon2.verify(user.password, signingDto.password);
     if (!isMatch) {
       throw new BadRequestException('Wrong user credentials');
     }

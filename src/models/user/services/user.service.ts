@@ -20,7 +20,8 @@ export class UserService {
   }
 
   async findUserByMail(email: string): Promise<UserDto> {
-    const user = await this.userBackendService.findUserByMail(email);
+    let user = await this.userBackendService.findUserByMail(email);
+    user.roles = await this.userBackendService.findAllRolesByUser(user.email);
     this.ifUserNotExistException(user);
     return this.userMapper.entityToDto(user);
   }
@@ -44,10 +45,6 @@ export class UserService {
     await this.userBackendService.findAllRolesByUser(decodedUser.email);
   }
 
-  //TODO: TOKEN DTO
-  //TODO: REFRESH TOKEN
-  //  BEARER TOKEN
-  // REFRESH TOKEN
   async create(signUpDto: SignupDto): Promise<UserDto> {
 
     const foundUser = await this.userBackendService.findUserByMail(signUpDto.email);
@@ -57,9 +54,9 @@ export class UserService {
     }
 
     let user = this.userMapper.dtoToEntity(signUpDto);
-
+    user.password = await this.hashPasswort(signUpDto.password);
     user.roles = this.getExtractedRolesFromDto(signUpDto.roles);
-    user.refreshToken = 'xxx';
+    user.refreshToken = ' ';
     user = await this.userBackendService.crate(user);
     return this.userMapper.entityToDto(user);
   }
@@ -98,5 +95,9 @@ export class UserService {
     if (!foundUser) {
       throw new BadRequestException(`Can't find user by this mail: ${foundUser.email}`);
     }
+  }
+
+  private async hashPasswort(password: string): Promise<string> {
+    return await argon2.hash(password);
   }
 }
