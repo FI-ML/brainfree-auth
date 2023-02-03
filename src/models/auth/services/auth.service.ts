@@ -41,7 +41,9 @@ export class AuthService {
     return tokens;
   }
 
-  async logout(email: string): Promise<void> {
+  async logout(request: Request): Promise<void> {
+
+    const email = this.extractUserDetailsFromToken(request);
     await this.userService.updateRefreshToken(email, null);
   }
 
@@ -62,5 +64,9 @@ export class AuthService {
 
     const tokens = await this.tokenService.getTokens(user);
     await this.userService.updateRefreshToken(user.email, tokens.refreshToken);
+  }
+
+  private extractUserDetailsFromToken(request: Request): string {
+    return request.user['email'];
   }
 }

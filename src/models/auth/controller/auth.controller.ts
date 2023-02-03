@@ -4,7 +4,7 @@ import { SignupDto } from '../dto/signup.dto';
 import { SigningDto } from '../dto/signingDto';
 import { RefreshTokenGuard } from '../../../common/guards/refresh.token.guard';
 import { AccessTokenGuard } from '../../../common/guards/access.token.guard';
-
+import { Request } from 'express';
 
 @Controller('v1/auth')
 export class AuthController {
@@ -29,7 +29,7 @@ export class AuthController {
 
   @UseGuards(AccessTokenGuard)
   @Get('logout')
-  async signOut(@Req() req) {
+  async signOut(@Req() req: Request) {
     return await this.authService.logout(req);
   }
 

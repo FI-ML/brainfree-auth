@@ -1,6 +1,8 @@
-import { Controller, Delete, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from '../services/user.service';
-import { AccessTokenStrategy } from '../../auth/strategies/accessToken/accessToken.strategy';
+import { Request } from 'express';
+import { AccessTokenGuard } from '../../../common/guards/access.token.guard';
+import { UpdateUserDetailsDto } from '../dto/update.user.details.dto';
 
 @Controller('v1/users')
 export class UserController {
@@ -8,21 +10,28 @@ export class UserController {
   constructor(private readonly userService: UserService) {
   }
 
-  @UseGuards(AccessTokenStrategy)
+  @UseGuards(AccessTokenGuard)
   @Get('user')
-  async findUserByMail(@Req() req) {
+  async findUserByMail(@Req() req: Request) {
     return await this.userService.findUserByMailAndReturnToken(req);
   }
 
-  @UseGuards(AccessTokenStrategy)
+  @UseGuards(AccessTokenGuard)
   @Get('user/roles')
-  async findRolesByUser(@Req() req) {
+  async findRolesByUser(@Req() req: Request) {
     return await this.userService.findRolesByUser(req);
   }
 
-  @UseGuards(AccessTokenStrategy)
-  @Delete('user/delete/:email')
-  async delete(@Param() email: string) {
-    return await this.userService.delete(email);
+  @UseGuards(AccessTokenGuard)
+  @Put('user')
+  async updateUser(@Body() dto: UpdateUserDetailsDto, @Req() req: Request) {
+    return await this.userService.updateUserDetails(dto, req);
+  }
+
+
+  @UseGuards(AccessTokenGuard)
+  @Delete('user/delete')
+  async delete(@Req() req: Request) {
+    return await this.userService.delete(req);
   }
 }

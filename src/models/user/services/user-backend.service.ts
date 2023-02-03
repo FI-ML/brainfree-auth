@@ -11,19 +11,14 @@ export class UserBackendService {
   }
 
 
-  async findUserByMail(mail: string): Promise<User> {
-
-    let user = await User.findOne({
-      where: { email: mail }
+  async findUserByMail(email: string): Promise<User> {
+    return await User.findOne({
+      where: { email: email }
     });
-
-    /*if (user) {
-      user.roles = await this.findAllRolesByUser(user.email);
-    }*/
-    return user;
   }
 
   async findAllRolesByUser(email: string): Promise<Array<Role>> {
+
     return await User
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.roles', 'roles')
@@ -37,7 +32,7 @@ export class UserBackendService {
   async updateUsersRefreshtoken(email: string, refreshToken: string) {
     let user = await this.findUserByMail(email);
     user.refreshToken = refreshToken;
-    await User.save(user);
+    return await User.save(user);
   }
 
   async delete(userId: string): Promise<DeleteQueryBuilder<User>> {
@@ -49,6 +44,30 @@ export class UserBackendService {
       .where('user.id = :id', {
         id: userId
       });
+  }
+
+
+  //TODO: UPDATE NEED IF WHAT UPDATE FOR PROPERTY NEED
+  async update(user: User) {
+
+    const existRoles = await this.findAllRolesByUser(user.email);
+    const roles = this.filterRolesIfExist(existRoles, user.roles);
+
+    if (roles) {
+      user.roles = roles;
+    }
+
+    return await User.save(user);
+  }
+
+
+  private filterRolesIfExist(existRoles: Array<Role>, updateRoles: Array<Role>) {
+
+    if (existRoles.length < 1) {
+      return updateRoles;
+    }
+
+    return updateRoles.filter((role) => !existRoles.includes(role));
   }
 
 }

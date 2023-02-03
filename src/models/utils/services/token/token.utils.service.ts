@@ -4,6 +4,7 @@ import { UserMapperUtilsService } from '../mapping/user.mapper.utils.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
+import { GetRoleDto } from '../../../role/dto/get.role.dto';
 
 @Injectable()
 export class TokenUtilsService {
@@ -14,14 +15,13 @@ export class TokenUtilsService {
   }
 
   async getTokens(user: UserDto) {
-
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
           email: user.email,
           firstname: user.firstname,
           lastname: user.lastname,
-          roles: user.roles
+          roles: this.mapToJson(user.roles)
         },
         {
           secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
@@ -33,7 +33,7 @@ export class TokenUtilsService {
           email: user.email,
           firstname: user.firstname,
           lastname: user.lastname,
-          roles: user.roles
+          roles: this.mapToJson(user.roles)
         },
         {
           secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
@@ -54,4 +54,14 @@ export class TokenUtilsService {
     );
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
   }
+
+  //TODO: is access token valid
+
+
+  private mapToJson(roles: Array<GetRoleDto>) {
+    return roles.reduce((acc, { name }) => ({ ...acc, [name]: name }), {});
+
+  }
 }
+
+

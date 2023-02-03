@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -46,13 +47,19 @@ export class User extends BaseEntity {
   })
   isActive: boolean;
 
-
-  @ManyToMany(() => Role, { cascade: true })
-  @JoinTable({ name: 'user_roles' })
+  @ManyToMany(() => Role, {
+    cascade: true
+  })
+  @JoinTable({
+    name: 'users_roles',
+    joinColumn: { name: 'userId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'roleId' }
+  })
   roles: Array<Role>;
 
   @Column({
-    type: 'varchar'
+    type: 'text',
+    nullable: true
   })
   refreshToken: string;
 
@@ -62,9 +69,8 @@ export class User extends BaseEntity {
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' })
   public updated_at: Date;
 
-  /*@BeforeInsert()
-  @BeforeUpdate()
-  async hashPassword(): Promise<void> {
-    this.password = await argon2.hash(this.password);
-  }*/
+  @BeforeInsert()
+  emailToLowerCase() {
+    this.email = this.email.toLowerCase();
+  }
 }
