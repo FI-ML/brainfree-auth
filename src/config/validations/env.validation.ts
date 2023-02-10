@@ -1,11 +1,5 @@
 import { plainToInstance } from 'class-transformer';
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  validateSync,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString, Length, validateSync } from 'class-validator';
 
 class EnvironmentVariables {
   @IsNotEmpty()
@@ -39,14 +33,24 @@ class EnvironmentVariables {
   @IsNotEmpty()
   @IsBoolean()
   DB_SYNCHRONIZATION: boolean;
+
+  @IsNotEmpty({ message: 'JWT_ACCESS_SECRET is empty' })
+  @IsString()
+  @Length(8, 200)
+  JWT_ACCESS_SECRET: string;
+
+  @IsNotEmpty({ message: 'JWT_REFRESH_SECRET is empty' })
+  @IsString()
+  @Length(8, 200)
+  JWT_REFRESH_SECRET: string;
 }
 
 export function validate(config: Record<string, unknown>) {
   const validatedConfig = plainToInstance(EnvironmentVariables, config, {
-    enableImplicitConversion: true,
+    enableImplicitConversion: true
   });
   const errors = validateSync(validatedConfig, {
-    skipMissingProperties: false,
+    skipMissingProperties: false
   });
 
   if (errors.length > 0) {

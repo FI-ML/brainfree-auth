@@ -1,6 +1,7 @@
 # brainfree-auth
 
 ## Description
+
 brainfree-auth is a small self-written Authenticate Server based on OAtuh2.
 
 ## TechStack
@@ -9,6 +10,11 @@ brainfree-auth is a small self-written Authenticate Server based on OAtuh2.
 * NestJs
 * TypeOrm
 * PostgresDB
+* Angular
+
+## OAuth2 flow
+
+![img.png](dok/images/img.png)
 
 ## Installation
 
@@ -55,6 +61,43 @@ $ docker-compose up -d
   important is the env file have a validation you rewrite the names you must update
   the [env.validation.ts](src%2Fconfig%2Fvalidations%2Fenv.validation.ts)
 
-``` ts
-  imports: [TypeOrmModule.forRoot(typeormConfig)],
-```
+## API
+
+### Auth
+
+* [signup](localhost:3000/v1/auth/signup)
+    - body
+
+         ```json
+          {
+          "firstname": "jane",
+          "lastname": "doe",
+          "email": "test@mail.com",
+          "password": "1234#4LsLs",
+          "isActive": true,
+          "roles": [
+                {
+                    "name": "User"
+                }
+          ]
+         }
+         ```
+
+* [signing](localhost:3000/v1/auth/singing)
+    - body
+
+      ```json
+      {
+      "email": "test@mail.com",
+      "password": "1234#4LsLs"
+      }
+      ```
+
+* [sign-out](localhost:3000/v1/auth/sign-out)
+
+---
+
+### User
+
+* [Get User by Mail](localhost:3000/v1/users/user)
+
