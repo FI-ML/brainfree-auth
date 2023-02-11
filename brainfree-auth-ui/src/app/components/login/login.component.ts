@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {User} from '../../models/user';
+import {User} from '../../models/user/user';
 import {StringUtils} from '../../utils/string.utils';
 import {LoginService} from '../../services/login/login.service';
-import {Token} from '../../models/token'
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,10 +19,11 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-  token!: Token;
+  token!: string;
 
   constructor(private readonly formBuilder: FormBuilder,
-              private readonly loginService: LoginService) {
+              private readonly loginService: LoginService,
+              private readonly router: Router) {
   }
 
   ngOnInit(): void {
@@ -35,11 +36,8 @@ export class LoginComponent implements OnInit {
       email: this.controlEmail.value,
       password: this.controlPassword.value,
     }
-
-    console.log(JSON.stringify(user))
-
-    this.loginService.signIn(user).subscribe(x => {
-      this.token = x;
+    this.loginService.signIn(user).subscribe(token => {
+      this.router.navigateByUrl('/details', {state: {id: 1, token: token}});
     });
   }
 

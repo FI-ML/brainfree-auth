@@ -1,10 +1,8 @@
 import {Injectable} from '@angular/core';
 import {LoginBackendService} from './backend/login-backend.service';
-import {User} from '../../models/user';
+import {User} from '../../models/user/user';
 import {Observable, tap} from 'rxjs';
-import {Token} from '../../models/token';
 import {SnackbarService} from '../snackbar.service';
-import {AppSettings} from '../../app-settings';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable({
@@ -17,13 +15,9 @@ export class LoginService {
   }
 
 
-  signIn(user: User): Observable<Token> {
+  signIn(user: User): Observable<any> {
     return this.backendService.signIn(user).pipe(
-      tap((tokens) => {
-        if (tokens.accessToken.length > 0 && tokens.refreshToken.length > 0) {
-          const message = 'You are sign in';
-          this.snackbarService.openSuccessSnackBar(message, AppSettings.DURATION);
-        }
+      tap(() => {
       }, (error: HttpErrorResponse) => {
         this.snackbarService.openErrorSnackBar(error.message);
       })
