@@ -1,0 +1,12 @@
+@import 'src/assets/variables';
+
+#btn-sign-in:hover {
+  background-color: $hover-color;
+}
+
+#btn-sign-in {
+  background-color: $primary-color;
+  color: white;
+  height: auto;
+  font-size: 1.5rem;
+}
