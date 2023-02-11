@@ -1,8 +1,11 @@
 {
   "/brainfree-auth": {
-    "target": "http://localhost:3000",
+    "target": "http://localhost:3000/v1/auth/",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "info"
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/brainfree-auth": ""
+    }
   }
 }
