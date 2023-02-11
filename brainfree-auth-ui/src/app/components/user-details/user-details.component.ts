@@ -46,4 +46,9 @@ export class UserDetailsComponent implements OnInit {
     }
   }
 
+  getRoles() {
+    const roles = this.user.roles;
+    return roles;
+  }
+
 }
