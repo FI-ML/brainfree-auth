@@ -9,7 +9,7 @@ COPY package*.json ./
 
 RUN yarn install --only=production
 
-COPY . .
+COPY .. .
 
 RUN yarn build
 
