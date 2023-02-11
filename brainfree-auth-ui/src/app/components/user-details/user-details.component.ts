@@ -19,8 +19,6 @@ export class UserDetailsComponent implements OnInit {
 
   constructor(private readonly router: Router) {
     this.state = this.router.getCurrentNavigation()?.extras.state;
-
-    console.log(JSON.stringify(this.state));
   }
 
   ngOnInit(): void {
@@ -32,11 +30,7 @@ export class UserDetailsComponent implements OnInit {
     const helper = new JwtHelperService();
     const accessToken = this.state.token.accessToken;
 
-    console.log(accessToken);
-
     const decodedToken = helper.decodeToken(accessToken);
-
-    console.log(JSON.stringify(decodedToken))
     this.user = {
       firstname: !decodedToken.firstname ? '' : decodedToken.firstname,
       lastname: !decodedToken.lastname ? '' : decodedToken.lastname,
