@@ -1,6 +1,8 @@
 version: '3.8'
 services:
 
+
+
   brainfree-auth-db:
     image: postgres:15-alpine
     container_name: brainfree-auth-db
