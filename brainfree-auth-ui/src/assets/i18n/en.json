@@ -1,0 +1,9 @@
+{
+  "AUTH": {
+    "WELCOME": "Welcome",
+    "LOGIN": "Log in",
+    "SIGN IN": "Sign in",
+    "PASSWORD": "Password",
+    "MY ROLES": "My roles:"
+  }
+}

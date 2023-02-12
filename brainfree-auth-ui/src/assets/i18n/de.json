@@ -1,0 +1,9 @@
+{
+  "AUTH": {
+    "WELCOME": "Willkommen",
+    "LOGIN": "Anmelden",
+    "SIGN IN": "Registrieren",
+    "PASSWORD": "Passwort",
+    "MY ROLES": "Meine Rollen:"
+  }
+}

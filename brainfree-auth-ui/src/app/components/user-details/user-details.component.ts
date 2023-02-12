@@ -9,8 +9,6 @@ import {UserDetails} from '../../models/user/user.details';
   styleUrls: ['./user-details.component.scss']
 })
 
-//TODO: BAD CODE
-// NOT TYPE SAFE BACKEND MUST SEND A TYPE OBJECT REFACTOR IT
 export class UserDetailsComponent implements OnInit {
 
   state!: any;

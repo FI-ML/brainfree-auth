@@ -4,6 +4,8 @@ import {User} from '../../models/user/user';
 import {StringUtils} from '../../utils/string.utils';
 import {LoginService} from '../../services/login/login.service';
 import {Router} from '@angular/router';
+import {LanguageService} from '../../services/language/language.service';
+import {Language} from '../../models/language';
 
 @Component({
   selector: 'app-login',
@@ -13,19 +15,30 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
   loginFormGroup!: FormGroup;
+  languages!: Language[];
+  selectedLanguage!: Language;
+
+  welcome!: string;
+  password!: string;
+  signIn!: string;
+
+  isGermany: boolean = true;
 
   user: User = {
     email: '',
     password: ''
   };
-  
+
   constructor(private readonly formBuilder: FormBuilder,
               private readonly loginService: LoginService,
-              private readonly router: Router) {
+              private readonly router: Router,
+              private readonly languageService: LanguageService) {
+
   }
 
   ngOnInit(): void {
     this.loginFormGroup = this.initLoginFormGroup();
+    this.initLanguages();
   }
 
   login(): void {
@@ -45,6 +58,12 @@ export class LoginComponent implements OnInit {
 
   get controlPassword(): FormControl {
     return (<FormControl>this.loginFormGroup.get('password'));
+  }
+
+  initLanguages(): void {
+    this.languages = this.languageService.languages;
+    this.selectedLanguage = this.languages[0];
+    this.isGermany = this.selectedLanguage.abbreviation === 'de';
   }
 
   private initLoginFormGroup(): FormGroup {
