@@ -4,6 +4,7 @@ import {User} from '../../models/user/user';
 import {Observable, tap} from 'rxjs';
 import {SnackbarService} from '../snackbar.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Token} from '../../models/token';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class LoginService {
   }
 
 
-  signIn(user: User): Observable<any> {
+  signIn(user: User): Observable<Token> {
     return this.backendService.signIn(user).pipe(
       tap(() => {
       }, (error: HttpErrorResponse) => {

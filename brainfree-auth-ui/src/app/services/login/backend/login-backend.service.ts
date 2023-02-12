@@ -3,6 +3,7 @@ import {AppSettings} from '../../../app-settings';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User} from '../../../models/user/user';
+import {Token} from '../../../models/token';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,9 @@ export class LoginBackendService {
   constructor(private readonly http: HttpClient) {
   }
 
-  signIn(user: User): Observable<any> {
+  signIn(user: User): Observable<Token> {
     const headers = new HttpHeaders()
       .set('content-type', 'application/json')
-    return this.http.post<any>(this.url, user, {headers: headers});
+    return this.http.post<Token>(this.url, user, {headers: headers});
   }
 }

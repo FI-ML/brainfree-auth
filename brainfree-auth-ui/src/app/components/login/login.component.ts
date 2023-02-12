@@ -18,9 +18,7 @@ export class LoginComponent implements OnInit {
     email: '',
     password: ''
   };
-
-  token!: string;
-
+  
   constructor(private readonly formBuilder: FormBuilder,
               private readonly loginService: LoginService,
               private readonly router: Router) {

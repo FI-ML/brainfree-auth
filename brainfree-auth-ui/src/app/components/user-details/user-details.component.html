@@ -1,27 +1,33 @@
-<section class="h-screen flex justify-center">
-  <div class="container mt-28 h-3/4 w-5/6 ">
-    <mat-card class="w-100 shadow-lg shadow-cyan-800/50">
-      <mat-card-header class="flex justify-center">
-        <div class="text-center">
-          <img
-            src="assets/images/place-holder.jpg"
-            class="rounded-full w-44 mb-4 mx-auto"
-            alt="Avatar"
-          />
+<section class="flex flex-col justify-center antialiased bg-gray-100 text-gray-600 min-h-screen p-4">
+  <div class="h-full">
+    <!-- Card -->
+    <div class="max-w-sm mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+      <div class="flex flex-col h-full">
+        <!-- Card top -->
+        <div class="flex-grow p-5">
+          <div class="flex justify-between items-start">
+            <!-- Image + name -->
+            <header>
+              <div class="flex mb-2">
+                <img class="rounded-full" src="assets/images/place-holder.jpg" width="84"
+                     height="84" alt="place holder image"/>
+                <div class="mt-1 pr-1 mt-5">
+                  <h1
+                    class="text-2xl leading-snug justify-center font-semibold">{{user.firstname}} {{user.lastname}}
+                  </h1>
+                </div>
+              </div>
+            </header>
+          </div>
+          <!-- Bio -->
+          <div class="mt-2 text-center">
+            <div class="text-xl">
+              <p>{{user.email}}</p>
+              <p>My Roles: <b> {{getRoles()}}</b></p>
+            </div>
+          </div>
         </div>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="text-center">
-          <h4 class="text-xl font-medium leading-tight mb-2">{{user.firstname}} {{user.lastname}}</h4>
-          <h4 class="text-xl font-medium leading-tight mb-2">{{user.email}}</h4>
-          <h4 class="text-xl font-medium leading-tight mb-2">Your Roles: </h4>
-
-          {{user.roles | json}}
-          <!-- <div *ngFor="let role of getRoles()">
-             <h6 class="text-xl font-medium leading-tight mb-2">{{role | json}}</h6>
-           </div>-->
-        </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
   </div>
 </section>

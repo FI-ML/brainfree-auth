@@ -41,8 +41,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   getRoles() {
-    const roles = this.user.roles;
-    return roles;
+    return this.user.roles.map(role => role.name).join(', ');
   }
 
 }
