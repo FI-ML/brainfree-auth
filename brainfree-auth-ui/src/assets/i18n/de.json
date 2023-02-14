@@ -2,8 +2,9 @@
   "AUTH": {
     "WELCOME": "Willkommen",
     "LOGIN": "Anmelden",
-    "SIGN IN": "Registrieren",
+    "SIGN IN": "Anmelden",
     "PASSWORD": "Passwort",
-    "MY ROLES": "Meine Rollen:"
+    "MY ROLES": "Meine Rollen:",
+    "LANGUAGE": "Sprache wechseln?"
   }
 }

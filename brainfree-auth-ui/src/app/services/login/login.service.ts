@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {LoginBackendService} from './backend/login-backend.service';
 import {User} from '../../models/user/user';
 import {Observable, tap} from 'rxjs';
-import {SnackbarService} from '../snackbar.service';
+import {SnackbarService} from '../snackBar/snackbar.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Token} from '../../models/token';
 

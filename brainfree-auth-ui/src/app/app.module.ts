@@ -14,12 +14,16 @@ import {UserDetailsComponent} from './components/user-details/user-details.compo
 import {MatCardModule} from '@angular/material/card';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {InternationalisationComponent} from './components/language-selection/internationalisation.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    InternationalisationComponent
   ],
   imports: [
     AppRoutingModule,
@@ -37,7 +41,9 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    MatMenuModule,
+    MatSelectModule
   ],
   bootstrap: [AppComponent]
 })
