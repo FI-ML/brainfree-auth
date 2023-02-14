@@ -50,11 +50,7 @@ $ cd /brainfree-auth/docker
 $ docker-compose up -d
 ```
 
-### Configuration
-
-* [env file](.env) there you can set dbname, username and password
-  important is the env file have a validation you rewrite the names you must update
-  the [env.validation.ts](src%2Fconfig%2Fvalidations%2Fenv.validation.ts)
+***
 
 ## API
 
