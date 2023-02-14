@@ -4,7 +4,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {LanguageService} from '../../services/language/language.service';
 
 @Component({
-  selector: 'app-language-selection',
+  selector: 'app-internationalization',
   templateUrl: './internationalisation.component.html',
   styleUrls: ['./internationalisation.component.scss']
 })
