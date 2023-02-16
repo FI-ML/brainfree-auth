@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Language} from '../../models/language';
 import {TranslateService} from '@ngx-translate/core';
 import {LanguageService} from '../../services/language/language.service';
+import {MatIconRegistry} from '@angular/material/icon';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-internationalization',
@@ -16,10 +18,18 @@ export class InternationalisationComponent implements OnInit {
   selection = false;
 
   constructor(private readonly translateService: TranslateService,
-              private readonly languageService: LanguageService) {
+              private readonly languageService: LanguageService,
+              private readonly matIconRegistry: MatIconRegistry,
+              private readonly domSanitizer: DomSanitizer) {
     translateService.addLangs(languageService.languages.map(language => language.value.toLowerCase()));
     translateService.setDefaultLang('de');
     translateService.use('de');
+
+
+    this.matIconRegistry.addSvgIcon(
+      `translate`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/translation.svg')
+    );
   }
 
 

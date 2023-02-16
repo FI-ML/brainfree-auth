@@ -17,6 +17,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {InternationalisationComponent} from './components/language-selection/internationalisation.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {MatSelectModule} from '@angular/material/select';
       }
     }),
     MatMenuModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ],
   bootstrap: [AppComponent]
 })

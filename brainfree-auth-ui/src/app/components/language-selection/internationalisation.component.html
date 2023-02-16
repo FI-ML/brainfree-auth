@@ -1,10 +1,17 @@
-<div class="float-right">
-  <div>
-    <button (click)="selectAction()">{{'AUTH.LANGUAGE' | translate}}</button>
-  </div>
-  <div *ngIf="selection" class="float-right">
+<div style="float: right; margin-bottom: 5%">
+  <button mat-raised-button
+          [matMenuTriggerFor]="menu">
+  <span class="text-base">
+    {{selectedLanguage.countryName}}
+  </span>
+    <mat-icon svgIcon="translate"></mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
     <div *ngFor="let lang of languages; let i = index" class="text-base">
-      <button class="btn-lang mt-2" (click)="onLanguageChange(i)">{{lang.abbreviation}}</button>
+      <button mat-menu-item class="btn-lang" (click)="onLanguageChange(i)">
+      <span>{{lang.value}}
+    </span></button>
     </div>
-  </div>
+  </mat-menu>
 </div>
+
