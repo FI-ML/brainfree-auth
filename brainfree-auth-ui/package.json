@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "rimraf dist node_modules node && ng build --configuratrion production --vendor-chunk=false",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "prod": "rimraf dist node_modules node && ng build --configuratrion production --vendor-chunk=false"
   },
   "private": true,
   "dependencies": {
