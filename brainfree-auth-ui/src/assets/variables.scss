@@ -43,3 +43,17 @@ $underline-bold: 3px solid $underlineColor;
   font-size: 1rem;
   border: transparent;
 }
+
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: green;
+    --mdc-snackbar-supporting-text-color: #ffff;
+  }
+
+  &.error-snackbar {
+    --mdc-snackbar-container-color: red;
+    --mat-mdc-snack-bar-button-color: #131212;
+    --mdc-snackbar-supporting-text-color: #ffff;
+  }
+}
+
