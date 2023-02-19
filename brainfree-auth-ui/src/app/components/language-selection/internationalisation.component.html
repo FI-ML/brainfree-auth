@@ -1,0 +1,17 @@
+<div style="float: right; margin-bottom: 5%">
+  <button mat-raised-button
+          [matMenuTriggerFor]="menu">
+  <span class="text-base">
+    {{selectedLanguage.countryName}}
+  </span>
+    <mat-icon svgIcon="translate"></mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <div *ngFor="let lang of languages; let i = index" class="text-base">
+      <button mat-menu-item class="btn-lang" (click)="onLanguageChange(i)">
+      <span>{{lang.value}}
+    </span></button>
+    </div>
+  </mat-menu>
+</div>
+
