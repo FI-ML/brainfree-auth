@@ -2,9 +2,9 @@ name: Release
 
 on:
   push:
-    branches: [ feature-brainfree-auth ]
+    branches: [ feature-brainfree-auth-ui ]
   pull_request:
-    branches: [ feature-brainfree-auth ]
+    branches: [ feature-brainfree-auth-ui ]
 
 jobs:
   release:
