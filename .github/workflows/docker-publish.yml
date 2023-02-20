@@ -24,7 +24,7 @@ jobs:
 
         with:
           images: |
-            ghcr.io/${{ github.repository }}/brainfree-auth-api
+            ghcr.io/${{ github.repository }}/brainfree-auth/brainfree-auth-api
           tags: |
             type=schedule
             type=ref,event=branch
