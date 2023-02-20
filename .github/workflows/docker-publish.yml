@@ -24,7 +24,7 @@ jobs:
 
         with:
           images: |
-            ghcr.io/FI-ML/brainfree-auth/tree/main/brainfree-auth-api
+            ghcr.io/brainfree-auth/api
           tags: |
             type=schedule
             type=ref,event=branch
@@ -71,7 +71,7 @@ jobs:
           git tag $NEXT_VERSION
           git push origin $NEXT_VERSION
 
-#  #pstgres
+  #pstgres
 #  database-job:
 #    runs-on: ubuntu-latest
 #    container: node:10.18-jessie
