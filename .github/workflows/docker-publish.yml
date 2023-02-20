@@ -71,41 +71,41 @@ jobs:
           git tag $NEXT_VERSION
           git push origin $NEXT_VERSION
 
-  #pstgres
-  database-job:
-    runs-on: ubuntu-latest
-    container: node:10.18-jessie
-    services:
-      # Label used to access the service container
-      postgres:
-        # Docker Hub image
-        image: postgres
-        # Provide the password for postgres
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: ghc_user
-          POSTGRES_PASSWORD: ghc_user_123
-          POSTGRES_DATABASE: brainfree-auth-db
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-      steps:
-        - name: Check out repository code
-          uses: actions/checkout@v3
-
-        - name: Install dependencies
-          run: npm ci
-
-        - name: Connect to PostgreSQL
-          run: node client.js
-          env:
-            POSTGRES_HOST: localhost
-            POSTGRES_PORT: 5432
-            POSTGRES_USER: ghc_user
-            POSTGRES_PASSWORD: ghc_user_123
-            POSTGRES_DATABASE: brainfree-auth-db
+#  #pstgres
+#  database-job:
+#    runs-on: ubuntu-latest
+#    container: node:10.18-jessie
+#    services:
+#      # Label used to access the service container
+#      postgres:
+#        # Docker Hub image
+#        image: postgres
+#        # Provide the password for postgres
+#        env:
+#          POSTGRES_HOST: localhost
+#          POSTGRES_PORT: 5432
+#          POSTGRES_USER: ghc_user
+#          POSTGRES_PASSWORD: ghc_user_123
+#          POSTGRES_DATABASE: brainfree-auth-db
+#        # Set health checks to wait until postgres has started
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
+#
+#      steps:
+#        - name: Check out repository code
+#          uses: actions/checkout@v3
+#
+#        - name: Install dependencies
+#          run: npm ci
+#
+#        - name: Connect to PostgreSQL
+#          run: node client.js
+#          env:
+#            POSTGRES_HOST: localhost
+#            POSTGRES_PORT: 5432
+#            POSTGRES_USER: ghc_user
+#            POSTGRES_PASSWORD: ghc_user_123
+#            POSTGRES_DATABASE: brainfree-auth-db
