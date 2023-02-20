@@ -57,19 +57,19 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       #smvr
-      - name: Clone repository
-        uses: actions/cheackout@v3
-        with:
-          fetch-depth: 0
-      - name: Get next version
-        uses: thenativeweb/get-next-version@main
-        id: get_next_version
-      - name: Create new release
-        if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
-        run: |
-          NEXT_VERSION=${{ steps.get_next_version.outputs.hasNextVersion }}
-          git tag $NEXT_VERSION
-          git push origin $NEXT_VERSION
+  #      - name: Clone repository
+  #        uses: actions/cheackout@v3
+  #        with:
+  #          fetch-depth: 0
+  #      - name: Get next version
+  #        uses: thenativeweb/get-next-version@main
+  #        id: get_next_version
+  #      - name: Create new release
+  #        if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
+  #        run: |
+  #          NEXT_VERSION=${{ steps.get_next_version.outputs.hasNextVersion }}
+  #          git tag $NEXT_VERSION
+  #          git push origin $NEXT_VERSION
 
   #pstgres
 #  database-job:
