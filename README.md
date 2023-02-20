@@ -22,7 +22,7 @@ lot of money costs, I decided to set up a small [Oauth2](https://auth0.com/docs/
 - [x] Internationalization (I18n)
 - [x] Add ui
 - [ ] Backend sends a correct error message by registration if a user exists
-- [ ] CI/CD workflow (GitHub Actions or Jenkins)
+- [ ] CI/CD workflow (GitHub Actions)
 - [ ] Angular env
 - [ ] Angular auth-guard
 - [ ] [semver](https://semver.org/lang/de/)

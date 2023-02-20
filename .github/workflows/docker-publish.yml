@@ -2,9 +2,9 @@ name: Release
 
 on:
   push:
-    branches: [ main ]
+    branches: [ feature-brainfree-auth ]
   pull_request:
-      branches: [ main ]
+    branches: [ feature-brainfree-auth ]
 
 jobs:
   release:
@@ -24,7 +24,7 @@ jobs:
 
         with:
           images: |
-            ghcr.io/${{ github.repository }}/brainfree-auth/brainfree-auth-api
+            ghcr.io/${{ github.repository }}
           tags: |
             type=schedule
             type=ref,event=branch
