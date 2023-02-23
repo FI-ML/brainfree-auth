@@ -6,7 +6,8 @@ FROM node:18-alpine as development
 
 WORKDIR user/src/app
 
-COPY package*.json ./
+COPY . .
+
 
 RUN yarn install
 
@@ -30,5 +31,5 @@ COPY --from=development /user/src/app .
 
 EXPOSE 3000
 
-CMD ["yarn", "dist/main"]
+CMD ["node", "dist/main.js"]
 
