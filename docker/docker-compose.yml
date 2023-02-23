@@ -1,5 +1,26 @@
 version: '3.8'
 services:
+  brainfree-auth-api:
+    image: ghcr.io/fi-ml/brainfree-auth/ui:sha-a16c29f
+    container_name: brainfree-auth-api
+    env_file: brainfree-auth.env
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - brainfree-auth-db
+
+  brainfree-auth-ui:
+    image: ghcr.io/fi-ml/brainfree-auth/ui:sha-a16c29f
+    container_name: brainfree-auth-ui
+    ports:
+      - "4200:4200"
+    networks:
+      - frontend
+    depends_on:
+      - brainfree-auth-api
 
   brainfree-auth-db:
     image: postgres:15-alpine
@@ -31,4 +52,5 @@ volumes:
 
 networks:
   backend:
+  frontend:
   ui:
