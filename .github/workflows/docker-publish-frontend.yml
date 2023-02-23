@@ -10,7 +10,6 @@ on:
 
 jobs:
   brainfree-auth-ui:
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
