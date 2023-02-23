@@ -2,11 +2,7 @@ name: brainfree-auth-ui
 
 on:
   push:
-    branches: feature-brainfree-auth-ui
-  pull_request:
-    branches: main
-    types:
-      - closed
+    branches: [ feature-github-actions ]
 
 jobs:
   brainfree-auth-ui:
@@ -19,8 +15,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/${{ github.repository }}/frontend
+            ghcr.io/${{ github.repository }}/ui
+          # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
             type=ref,event=branch
@@ -47,8 +45,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: ./brainfree-auth-ui/Dockerfile
+          context: brainfree-auth-ui
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
