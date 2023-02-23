@@ -65,5 +65,5 @@ jobs:
         with:
           context: brainfree-auth-ui
           push: ${{ github.event_name != 'pull_request' }}
-          tags: user/app-ui:latest
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
