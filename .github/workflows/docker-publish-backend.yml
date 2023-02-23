@@ -43,7 +43,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/${{ github.repository }}/ui
+            ghcr.io/${{ github.repository }}/api
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -69,9 +69,9 @@ jobs:
           password: ${{ secrets.GIT_AUTH_TOKEN  }}
 
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: brainfree-auth-api
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: user/app-api:latest
           labels: ${{ steps.meta.outputs.labels }}

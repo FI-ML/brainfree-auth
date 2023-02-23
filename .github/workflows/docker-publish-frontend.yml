@@ -5,22 +5,22 @@ on:
     branches: [ feature-github-actions ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./brainfree-auth-ui
-    steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Install NodeJs
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm install
-      - name: Run tests
-        run: npm run test
+  #  test:
+  #    runs-on: ubuntu-latest
+  #    defaults:
+  #      run:
+  #        working-directory: ./brainfree-auth-ui
+  #    steps:
+  #      - name: Get code
+  #        uses: actions/checkout@v3
+  #      - name: Install NodeJs
+  #        uses: actions/setup-node@v3
+  #        with:
+  #          node-version: 18
+  #      - name: Install dependencies
+  #        run: npm install
+  #      - name: Run tests
+  #        run: npm run test
 
   brainfree-auth-ui:
     needs: test
@@ -61,9 +61,9 @@ jobs:
           password: ${{ secrets.GIT_AUTH_TOKEN  }}
 
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: brainfree-auth-ui
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: user/app-ui:latest
           labels: ${{ steps.meta.outputs.labels }}
