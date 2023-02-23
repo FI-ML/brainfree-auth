@@ -2,7 +2,11 @@ name: brainfree-auth-ui
 
 on:
   push:
-    branches: [ feature-github-actions ]
+    branches: feature-github-actions
+  pull_request:
+    branches: main
+    types:
+      - closed
 
 jobs:
   brainfree-auth-ui:
