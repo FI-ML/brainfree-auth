@@ -4,8 +4,9 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm run build
-
+RUN npm install
+RUN npm install -g http-server
+RUN npm run build --prod  --outputHashing=all
 
 FROM nginx:1.22.0-alpine
 
