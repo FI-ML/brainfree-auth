@@ -21,21 +21,21 @@ env:
   JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
 
 
-  jobs:
-    create-database:
-      runs-on: ubuntu-latest
-      container: node:10.18-jessie
-      services:
-        postgres:
-          image: postgres
-          env:
-            POSTGRES_HOST: $DB_HOST
-            POSTGRES_PORT: $DB_PORT
-            POSTGRES_USER: $DB_USERNAME
-            POSTGRES_PASSWORD: $DB_PASSWORD
-            POSTGRES_DATABASE: $DB_NAME
-          ports:
-            - 5432:5432
+jobs:
+  create-database:
+    runs-on: ubuntu-latest
+    container: node:10.18-jessie
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_HOST: $DB_HOST
+          POSTGRES_PORT: $DB_PORT
+          POSTGRES_USER: $DB_USERNAME
+          POSTGRES_PASSWORD: $DB_PASSWORD
+          POSTGRES_DATABASE: $DB_NAME
+        ports:
+          - 5432:5432
 
   test:
     needs: create-database
