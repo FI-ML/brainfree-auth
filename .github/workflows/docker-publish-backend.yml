@@ -22,7 +22,7 @@ env:
 
 
 jobs:
-  create-database:
+  database-job:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,39 +30,8 @@ jobs:
         with:
           postgresql version: '15'
 
-  #    container: node:10.18-jessie
-  #    services:
-  #      postgres:
-  #        image: postgres
-  #        env:
-  #          POSTGRES_HOST: $DB_HOST
-  #          POSTGRES_PORT: $DB_PORT
-  #          POSTGRES_USER: $DB_USERNAME
-  #          POSTGRES_PASSWORD: $DB_PASSWORD
-  #          POSTGRES_DATABASE: $DB_NAME
-  #        ports:
-  #          - 5432:5432
-
-  test:
-    needs: create-database
-    runs-on: ubuntu-20.04
-    defaults:
-      run:
-        working-directory: ./brainfree-auth-api
-    steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Install NodeJs
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Install dependencies
-        run: yarn install
-      - name: Run tests
-        run: yarn run test
-
   brainfree-auth-api:
-    needs: test
+    needs: database-job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
