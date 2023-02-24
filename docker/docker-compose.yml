@@ -5,17 +5,7 @@ services:
       context: ../brainfree-auth-api
       dockerfile: Dockerfile
     container_name: brainfree-auth-api
-    environment:
-      APP_PORT: 3000
-      DB_HOST: localhost
-      DB_PORT: 5432
-      DB_NAME: brainfree-auth-db
-      DB_USERNAME: docker
-      DB_PASSWORD: docker
-      DB_LOGGING: false
-      DB_SYNCHRONIZATION: true
-      JWT_ACCESS_SECRET: PhZm9Y0rY0YqPfrv2jNCdmvO4tLiwgRU187vD0hlkNKqx4WYJctctEEH62q51HdkxWNqJFVjCKAiWM+iaaKWKNko2KeW5K2
-      JWT_REFRESH_SECRET: LXNRF+5l284QWBdwO3pYp2jUFYgukkXTBLp9dpEGN8ZzKzCFo4EDdlYxZ7eHLgCmktP6s3LAReu5H4+2vhlbC4zMYg
+    env_file: .env
     ports:
       - "3000:3000"
     networks:
