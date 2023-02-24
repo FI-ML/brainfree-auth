@@ -1,7 +1,6 @@
 name: brainfree-auth-ui
 
 on:
-  workflow_dispatch:
   push:
     branches: feature-github-actions
   pull_request:
