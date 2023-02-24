@@ -1,6 +1,7 @@
 name: brainfree-auth-backend
 
 on:
+  workflow_dispatch:
   push:
     branches: feature-github-actions
   pull_request:
