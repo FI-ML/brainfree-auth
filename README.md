@@ -23,6 +23,7 @@ lot of money costs, I decided to set up a small [Oauth2](https://auth0.com/docs/
 - [x] Add ui
 - [x] create login image with [midjourney](https://www.midjourney.com/home/)
 - [ ] create login brainfree icon with [midjourney](https://www.midjourney.com/home/)
+- [ ] upload image
 - [ ] Backend sends a correct error message by registration if a user exists
 - [ ] CI/CD workflow (GitHub Actions)
 - [ ] Angular env
