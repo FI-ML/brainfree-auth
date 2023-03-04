@@ -8,7 +8,7 @@ image:
   repository: https://github.com/FI-ML/brainfree-auth/tree/main/brainfree-auth-ui
   tag: v1.0.0 # TODO: semver
   pullPolicy: Always
-  dockerfile: ../brainfree-auth-ui/Dockerfile
+  dockerfile: ../Dockerfile
 
 nameOverride: "brainfree-auth-ui"
 fullnameOverride: "brainfree-auth-ui"
