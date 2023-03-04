@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "brainfree-auth-argocd.fullname" . }}-test-connection"
+  labels:
+    {{- include "brainfree-auth-argocd.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "brainfree-auth-argocd.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
