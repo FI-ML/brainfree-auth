@@ -1,19 +1,38 @@
-name: Release
+name: brainfree-auth-backend
 
 on:
   push:
-    branches: [ main ]
+    branches: feature-github-actions
   pull_request:
-      branches: [ main ]
+    branches: main
+    types:
+      - closed
+
+env:
+  APP_PORT: ${{ secrets.APP_PORT }}
+  DB_HOST: localhost
+  DB_PORT: 5432
+  DB_NAME: ${{ secrets.DB_NAME }}
+  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_LOGGING: false
+  DB_SYNCHRONIZATION: true
+  JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+  JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+
 
 jobs:
-  release:
-    name: Release
+  database-job:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 16.x 18.x ]
 
+    steps:
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '15'
+
+  brainfree-auth-api:
+    needs: database-job
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3.3.0
@@ -21,10 +40,11 @@ jobs:
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
-
         with:
+          # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/${{ github.repository }}/brainfree-auth/brainfree-auth-api
+            ghcr.io/${{ github.repository }}/api
+          # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
             type=ref,event=branch
@@ -32,7 +52,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha
+            type=raw,value=latest
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -47,25 +67,11 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GIT_AUTH_TOKEN  }}
+
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
-          context: .
+          context: brainfree-auth-api
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      #smvr
-      - name: Clone repository
-        uses: actions/cheackout@v3
-        with:
-          fetch-depth: 0
-      - name: Get next version
-        uses: thenativeweb/get-next-version@main
-        id: get_next_version
-      - name: Create new release
-        if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
-        run: |
-          NEXT_VERSION=${{ steps.get_next_version.outputs.hasNextVersion }}
-          git tag $NEXT_VERSION
-          git push origin $NEXT_VERSION
