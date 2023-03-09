@@ -7,7 +7,7 @@ COPY . /usr/local/app/
 RUN npm install
 RUN npm run build
 
-FROM nginx:1.22.0-alpine
+FROM nginx:1.23.3-alpine
 
 RUN rm -rf /usr/share/nginx/html/*
 
