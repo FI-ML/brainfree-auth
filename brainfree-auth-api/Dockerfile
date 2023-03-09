@@ -2,7 +2,7 @@
 ## DEVELOPMENT ##
 #################
 
-FROM node:18-alpine as development
+FROM node:19-alpine as development
 
 WORKDIR user/src/app
 
@@ -19,7 +19,7 @@ EXPOSE 3000
 ## PRODUCTION ##
 ################
 
-FROM node:18-alpine as production
+FROM node:19-alpine as production
 
 
 ARG NODE_ENV=production
